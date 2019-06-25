@@ -45,3 +45,8 @@ o
 ?app/src/main/java/com/example/mychatapp/GoogleSignInActivity.kt,a/d/adc730d9ea5b88d36f4311a87263e29e5ca40a07
 9
 	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
+>
+app/.gitignore,5/1/51e1c5d383dfaa35e0e7e5873a0a99355a86880f
+:
+
+.gitignore,a/5/a5cc2925ca8258af241be7e5b0381edf30266302

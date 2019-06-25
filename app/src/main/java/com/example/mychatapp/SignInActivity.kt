@@ -1,11 +1,10 @@
 package com.example.mychatapp
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import com.example.mychatapp.data.User
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -19,7 +18,6 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_google.*
-import kotlinx.android.synthetic.main.activity_sign_in.*
 
 class SignInActivity : BaseActivity(), View.OnClickListener {
 
@@ -34,7 +32,7 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
         // Button listeners
         signInButton.setOnClickListener(this)
         signOutButton.setOnClickListener(this)
-        disconnectButton.setOnClickListener(this)
+//        disconnectButton.setOnClickListener(this)
 
         // configure google sign in
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -49,8 +47,6 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
 
     public override fun onStart() {
         super.onStart()
-//        val currentUser = auth.currentUser
-//        updateUI(currentUser)
         auth.currentUser?.let {
             onAuthSuccess(it)
         }
@@ -60,7 +56,7 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
         val username = usernameFromEmail(user.email!!)
 
         // Write new user
-        writeNewUser(user.uid, username, user.email)
+        writeNewUser(user.uid, username, user.email, user.photoUrl.toString())
 
         // Go to MainActivity
         startActivity(Intent(this@SignInActivity, MainActivity::class.java))
@@ -74,8 +70,8 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
             email
         }
     }
-    private fun writeNewUser(userId: String, name: String, email: String?) {
-        val user = User(name, email)
+    private fun writeNewUser(userId: String, name: String, email: String?, photoUrl: String) {
+        val user = User(name, email, photoUrl)
         database.child("users").child(userId).setValue(user)
     }
 
@@ -116,6 +112,9 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
 
                     auth.currentUser?.let {
                         onAuthSuccess(it)
+                    }
+                    user!!.providerData.forEach {
+                        Log.d(TAG, "${it.photoUrl}")
                     }
 
                     updateUI(user)
@@ -180,7 +179,7 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
         when (v.id) {
             R.id.signInButton -> signIn()
             R.id.signOutButton -> signOut()
-            R.id.disconnectButton -> revokeAccess()
+//            R.id.disconnectButton -> revokeAccess()
         }
     }
 

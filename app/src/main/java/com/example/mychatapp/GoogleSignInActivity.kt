@@ -80,6 +80,9 @@ class GoogleSignInActivity : BaseActivity(), View.OnClickListener {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithCredential:success")
                     val user = auth.currentUser
+                    user!!.providerData.forEach {
+                        Log.d(TAG, "${it.photoUrl}")
+                    }
                     updateUI(user)
                 } else {
                     // If sign in fails, display a message to the user.

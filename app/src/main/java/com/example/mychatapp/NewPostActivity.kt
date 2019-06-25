@@ -12,7 +12,7 @@ import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_new_post.*
 import java.util.HashMap
 
-class NewPostActivity: BaseActivity() {
+class NewPostActivity : BaseActivity() {
 
     private lateinit var database: DatabaseReference
 
@@ -57,12 +57,13 @@ class NewPostActivity: BaseActivity() {
 
                     // [START_EXCLUDE]
                     if (user == null) {
-
                         // User is null, error out
                         Log.e(TAG, "User $userId is unexpectedly null")
-                        Toast.makeText(baseContext,
+                        Toast.makeText(
+                            baseContext,
                             "Error: could not fetch user.",
-                            Toast.LENGTH_SHORT).show()
+                            Toast.LENGTH_SHORT
+                        ).show()
                     } else {
                         // Write new post
                         writeNewPost(userId, user.username.toString(), title, body)
@@ -95,6 +96,14 @@ class NewPostActivity: BaseActivity() {
     }
 
     private fun writeNewPost(userId: String, username: String, title: String, body: String) {
+        if (userId.isEmpty()) {
+            Toast.makeText(
+                baseContext,
+                "Error: could not fetch user.",
+                Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
         // Create new post at /user-posts/$userid/$postid and at
         // /posts/$postid simultaneously
         val key = database.child("posts").push().key

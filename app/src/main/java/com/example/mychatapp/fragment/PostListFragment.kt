@@ -131,7 +131,7 @@ abstract class PostListFragment : Fragment() {
                 dataSnapshot: DataSnapshot?
             ) {
                 // Transaction completed
-                Log.d(TAG, "postTransaction:onComplete:" + databaseError!!)
+                Log.d(TAG, "postTransaction:onComplete:$databaseError, $dataSnapshot")
             }
         })
     }
