@@ -1,5 +1,6 @@
 package com.chattyapp.mychatapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -46,41 +47,53 @@ class NewPostActivity : BaseActivity() {
         Toast.makeText(this, "Posting...", Toast.LENGTH_SHORT).show()
 
         // [START single_value_read]
-        val userId = uid
-        database.child("users").child(userId).addListenerForSingleValueEvent(
-            object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    // Get user value
-                    val user = dataSnapshot.getValue(User::class.java)
+        val userId = getUid()
+        if (userId.isNullOrEmpty()) {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+            Toast.makeText(
+                baseContext,
+                "Error: could not fetch user.",
+                Toast.LENGTH_SHORT
+            ).show()
+        } else {
+            database.child("users").child(userId).addListenerForSingleValueEvent(
+                object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        // Get user value
+                        val user = dataSnapshot.getValue(User::class.java)
 
-                    // [START_EXCLUDE]
-                    if (user == null) {
-                        // User is null, error out
-                        Log.e(TAG, "User $userId is unexpectedly null")
-                        Toast.makeText(
-                            baseContext,
-                            "Error: could not fetch user.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else {
-                        // Write new post
-                        writeNewPost(userId, user.username.toString(), title, body)
+                        // [START_EXCLUDE]
+                        if (user == null) {
+                            // User is null, error out
+                            Log.e(TAG, "User $userId is unexpectedly null")
+                            Toast.makeText(
+                                baseContext,
+                                "Error: could not fetch user.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            // Write new post
+                            writeNewPost(userId, user.username.toString(), title, body)
+                        }
+
+                        // Finish this Activity, back to the stream
+                        setEditingEnabled(true)
+                        finish()
+                        // [END_EXCLUDE]
                     }
 
-                    // Finish this Activity, back to the stream
-                    setEditingEnabled(true)
-                    finish()
-                    // [END_EXCLUDE]
-                }
+                    override fun onCancelled(databaseError: DatabaseError) {
+                        Log.w(TAG, "getUser:onCancelled", databaseError.toException())
+                        // [START_EXCLUDE]
+                        setEditingEnabled(true)
+                        // [END_EXCLUDE]
+                    }
+                })
+            // [END single_value_read]
+        }
 
-                override fun onCancelled(databaseError: DatabaseError) {
-                    Log.w(TAG, "getUser:onCancelled", databaseError.toException())
-                    // [START_EXCLUDE]
-                    setEditingEnabled(true)
-                    // [END_EXCLUDE]
-                }
-            })
-        // [END single_value_read]
+
     }
 
     private fun setEditingEnabled(enabled: Boolean) {

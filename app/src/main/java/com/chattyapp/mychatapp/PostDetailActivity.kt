@@ -1,6 +1,7 @@
 package com.chattyapp.mychatapp
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -105,38 +106,48 @@ class PostDetailActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun postComment() {
-        val uid = uid
-        FirebaseDatabase.getInstance().reference.child("users").child(uid)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    // Get user information
-                    val user = dataSnapshot.getValue(User::class.java) ?: return
+        val uid = getUid()
+        if (uid.isNullOrEmpty()) {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+            Toast.makeText(
+                baseContext,
+                "Error: could not fetch user.",
+                Toast.LENGTH_SHORT).show()
+        } else {
+            FirebaseDatabase.getInstance().reference.child("users").child(uid)
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        // Get user information
+                        val user = dataSnapshot.getValue(User::class.java) ?: return
 
-                    val authorName = user.username
+                        val authorName = user.username
 
-                    // Create new comment object
-                    val commentText = fieldCommentText.text.toString()
-                    val comment = Comment(uid, authorName, commentText)
+                        // Create new comment object
+                        val commentText = fieldCommentText.text.toString()
+                        val comment = Comment(uid, authorName, commentText)
 
-                    // Push the comment, it will appear in the list
-                    commentsReference.push().setValue(comment)
+                        // Push the comment, it will appear in the list
+                        commentsReference.push().setValue(comment)
 
-                    // Clear the field
-                    fieldCommentText.text = null
-                }
+                        // Clear the field
+                        fieldCommentText.text = null
+                    }
 
-                override fun onCancelled(databaseError: DatabaseError) {
-                    // Getting Post failed, log a message
-                    Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
-                    // [START_EXCLUDE]
-                    Toast.makeText(
-                        this@PostDetailActivity, "Failed to load post.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    // [END_EXCLUDE]
-                }
-            })
-    }
+                    override fun onCancelled(databaseError: DatabaseError) {
+                        // Getting Post failed, log a message
+                        Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+                        // [START_EXCLUDE]
+                        Toast.makeText(
+                            this@PostDetailActivity, "Failed to load post.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        // [END_EXCLUDE]
+                    }
+                })
+
+        }
+            }
 
     private class CommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 

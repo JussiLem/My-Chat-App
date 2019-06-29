@@ -8,8 +8,10 @@ open class BaseActivity : AppCompatActivity() {
 
     private var progressDialog: ProgressDialog? = null
 
-    val uid: String
-        get() = FirebaseAuth.getInstance().currentUser!!.uid
+    fun getUid(): String? {
+
+        return FirebaseAuth.getInstance().currentUser?.uid
+    }
 
     fun showProgressDialog() {
         if (progressDialog == null) {
