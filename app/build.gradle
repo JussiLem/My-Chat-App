@@ -17,8 +17,8 @@ android {
         applicationId 'com.chattyapp.mychatapp'
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 2
-        versionName "1.0-beta"
+        versionCode 4
+        versionName '1.0.2-beta'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         proguardFiles 'proguard-rules.pro'
     }
