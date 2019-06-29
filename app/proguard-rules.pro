@@ -26,10 +26,10 @@
 -keepattributes EnclosingMethod
 -keepattributes InnerClasses
 
--keep class com.example.mychatapp.viewholder.** {
+-keep class com.chattyapp.mychatapp.viewholder.** {
     *;
 }
 
--keepclassmembers class com.example.mychatapp.data.** {
+-keepclassmembers class com.chattyapp.mychatapp.data.** {
     *;
 }
