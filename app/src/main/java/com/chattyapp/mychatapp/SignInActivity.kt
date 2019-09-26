@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.chattyapp.mychatapp.MainActivity
 import com.chattyapp.mychatapp.data.User
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -24,6 +25,7 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
     private lateinit var database: DatabaseReference
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
+    private var emailValidator = EmailValidator()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,23 +55,31 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun onAuthSuccess(user: FirebaseUser) {
-        val username = usernameFromEmail(user.email!!)
+//        val username = usernameFromEmail(user.email!!)
 
         // Write new user
-        writeNewUser(user.uid, username, user.email, user.photoUrl.toString())
+        when (val username = emailValidator.afterTextChanged(user.email)) {
+            null -> {
+                Toast.makeText(baseContext, "Failed to parse the email address",
+                    Toast.LENGTH_SHORT).show()
+            }
+            else -> writeNewUser(user.uid, username, user.email, user.photoUrl.toString())
+        }
+
 
         // Go to MainActivity
         startActivity(Intent(this@SignInActivity, MainActivity::class.java))
         finish()
     }
 
-    private fun usernameFromEmail(email: String): String {
+  /*  private fun usernameFromEmail(email: String): String {
         return if (email.contains("@")) {
             email.split("@".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
         } else {
             email
         }
-    }
+    }*/
+
     private fun writeNewUser(userId: String, name: String, email: String?, photoUrl: String) {
         val user = User(name, email, photoUrl)
         database.child("users").child(userId).setValue(user)
@@ -81,14 +91,15 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
+                val task = GoogleSignIn.getSignedInAccountFromIntent(data)
                 // Google Sign In was successful, authenticate with Firebase
                 val account = task.getResult(ApiException::class.java)
                 firebaseAuthWithGoogle(account!!)
             } catch (e: ApiException) {
                 // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e)
+                Snackbar.make(main_layout, "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
                 // [START_EXCLUDE]
                 updateUI(null)
                 // [END_EXCLUDE]
