@@ -64,17 +64,18 @@ class NewPostActivity : BaseActivity() {
                         val user = dataSnapshot.getValue(User::class.java)
 
                         // [START_EXCLUDE]
-                        if (user == null) {
-                            // User is null, error out
-                            Log.e(TAG, "User $userId is unexpectedly null")
-                            Toast.makeText(
-                                baseContext,
-                                "Error: could not fetch user.",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        } else {
-                            // Write new post
-                            writeNewPost(userId, user.username.toString(), title, body)
+                        when (user) {
+                            null -> {
+                                // User is null, error out
+                                Log.e(TAG, "User $userId is unexpectedly null")
+                                Toast.makeText(
+                                    baseContext,
+                                    "Error: could not fetch user.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            else -> // Write new post
+                                writeNewPost(userId, user.username.toString(), title, body)
                         }
 
                         // Finish this Activity, back to the stream
