@@ -56,14 +56,17 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
 
     private fun onAuthSuccess(user: FirebaseUser) {
         // Write new user
-        when (val username = emailValidator.afterTextChanged(user.email)) {
+        when (emailValidator.afterTextChanged(user.email)) {
             null -> {
                 Toast.makeText(
                     baseContext, "Failed to parse the email address",
                     Toast.LENGTH_SHORT
                 ).show()
             }
-            else -> writeNewUser(user.uid, username, user.email, user.photoUrl.toString())
+            else -> {
+                val username = usernameFromEmail(user.email!!)
+                writeNewUser(user.uid, username, user.email!!, user.photoUrl.toString())
+            }
         }
         
         // Go to MainActivity
@@ -71,9 +74,17 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
         finish()
     }
 
-    private fun writeNewUser(userId: String, name: String, email: String?, photoUrl: String) {
-        val user = User(name, email, photoUrl)
-        database.child("users").child(userId).setValue(user)
+      private fun usernameFromEmail(email: String): String {
+        return if (email.contains("@")) {
+            email.split("@".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
+        } else {
+            email
+        }
+    }
+
+
+    private fun writeNewUser(userId: String, name: String, email: String, photoUrl: String) {
+        database.child("users").child(userId).setValue(User(name, email, photoUrl))
     }
 
 

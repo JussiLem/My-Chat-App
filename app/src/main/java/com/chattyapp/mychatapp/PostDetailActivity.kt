@@ -59,7 +59,7 @@ class PostDetailActivity : BaseActivity(), View.OnClickListener {
                 val post = dataSnapshot.getValue(Post::class.java)
                 // [START_EXCLUDE]
                 post?.let {
-                    postAuthor.text = it.author
+                    postAuthor.text = it.author.username
                     postTitle.text = it.title
                     postBody.text = it.body
                 }
@@ -121,11 +121,11 @@ class PostDetailActivity : BaseActivity(), View.OnClickListener {
                         // Get user information
                         val user = dataSnapshot.getValue(User::class.java) ?: return
 
-                        val authorName = user.username
+//                        val authorName = user.username
 
                         // Create new comment object
                         val commentText = fieldCommentText.text.toString()
-                        val comment = Comment(uid, authorName, commentText)
+                        val comment = Comment(uid, user, commentText)
 
                         // Push the comment, it will appear in the list
                         commentsReference.push().setValue(comment)
@@ -152,7 +152,7 @@ class PostDetailActivity : BaseActivity(), View.OnClickListener {
     private class CommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(comment: Comment) {
-            itemView.commentAuthor.text = comment.author
+            itemView.commentAuthor.text = comment.author.username
             itemView.commentBody.text = comment.text
         }
     }

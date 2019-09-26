@@ -75,7 +75,7 @@ class NewPostActivity : BaseActivity() {
                                 ).show()
                             }
                             else -> // Write new post
-                                writeNewPost(userId, user.username.toString(), title, body)
+                                writeNewPost(userId, user, title, body)
                         }
 
                         // Finish this Activity, back to the stream
@@ -107,7 +107,7 @@ class NewPostActivity : BaseActivity() {
         }
     }
 
-    private fun writeNewPost(userId: String, username: String, title: String, body: String) {
+    private fun writeNewPost(userId: String, username: User, title: String, body: String) {
         if (userId.isEmpty()) {
             Toast.makeText(
                 baseContext,

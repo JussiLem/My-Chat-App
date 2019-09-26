@@ -12,7 +12,7 @@ class PostViewHolder(item: View) : RecyclerView.ViewHolder(item) {
 
     fun bindToPost(post: Post, startClickListener: View.OnClickListener) {
         itemView.postTitle.text = post.title
-        itemView.postAuthor.text = post.author
+        itemView.postAuthor.text = post.author.username
         itemView.postNumStars.text = post.starCount.toString()
         itemView.postBody.text = post.body
 
@@ -20,10 +20,9 @@ class PostViewHolder(item: View) : RecyclerView.ViewHolder(item) {
     }
 
     fun setLikedState(liked: Boolean) {
-        if (liked) {
-            itemView.star.setImageResource(R.drawable.ic_toggle_star_24)
-        } else {
-            itemView.star.setImageResource(R.drawable.ic_toggle_star_outline_24)
+        when {
+            liked -> itemView.star.setImageResource(R.drawable.ic_toggle_star_24)
+            else -> itemView.star.setImageResource(R.drawable.ic_toggle_star_outline_24)
         }
     }
 }
