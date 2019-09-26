@@ -55,30 +55,21 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun onAuthSuccess(user: FirebaseUser) {
-//        val username = usernameFromEmail(user.email!!)
-
         // Write new user
         when (val username = emailValidator.afterTextChanged(user.email)) {
             null -> {
-                Toast.makeText(baseContext, "Failed to parse the email address",
-                    Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    baseContext, "Failed to parse the email address",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
             else -> writeNewUser(user.uid, username, user.email, user.photoUrl.toString())
         }
-
-
+        
         // Go to MainActivity
         startActivity(Intent(this@SignInActivity, MainActivity::class.java))
         finish()
     }
-
-  /*  private fun usernameFromEmail(email: String): String {
-        return if (email.contains("@")) {
-            email.split("@".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0]
-        } else {
-            email
-        }
-    }*/
 
     private fun writeNewUser(userId: String, name: String, email: String?, photoUrl: String) {
         val user = User(name, email, photoUrl)
@@ -132,7 +123,8 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
-                    Snackbar.make(main_layout, "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(main_layout, "Authentication Failed.", Snackbar.LENGTH_SHORT)
+                        .show()
                     updateUI(null)
                 }
 
