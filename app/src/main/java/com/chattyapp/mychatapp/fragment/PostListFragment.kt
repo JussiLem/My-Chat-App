@@ -15,7 +15,6 @@ import com.chattyapp.mychatapp.data.Post
 import com.chattyapp.mychatapp.viewholder.PostViewHolder
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
-import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_all_posts.view.*

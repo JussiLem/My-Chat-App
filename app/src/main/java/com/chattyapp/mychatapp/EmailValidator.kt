@@ -1,6 +1,5 @@
 package com.chattyapp.mychatapp
 
-
 import java.util.regex.Pattern
 
 class EmailValidator {

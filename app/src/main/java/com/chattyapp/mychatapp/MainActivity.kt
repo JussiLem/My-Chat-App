@@ -6,13 +6,9 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
-import com.chattyapp.mychatapp.BaseActivity
-import com.chattyapp.mychatapp.NewPostActivity
-import com.chattyapp.mychatapp.SignInActivity
 import com.chattyapp.mychatapp.fragment.MyPostsFragment
 import com.chattyapp.mychatapp.fragment.MyTopPostsFragment
 import com.chattyapp.mychatapp.fragment.RecentPostFragment
-import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 
