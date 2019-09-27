@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import com.chattyapp.mychatapp.MainActivity
 import com.chattyapp.mychatapp.data.User
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -25,7 +24,7 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
     private lateinit var database: DatabaseReference
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
-    private var emailValidator = EmailValidator()
+    private val emailValidator = EmailValidator()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,15 +56,15 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
     private fun onAuthSuccess(user: FirebaseUser) {
         // Write new user
         when (emailValidator.afterTextChanged(user.email)) {
-            null -> {
+            false -> {
                 Toast.makeText(
                     baseContext, "Failed to parse the email address",
                     Toast.LENGTH_SHORT
                 ).show()
             }
             else -> {
-                val username = usernameFromEmail(user.email!!)
-                writeNewUser(user.uid, username, user.email!!, user.photoUrl.toString())
+                val username = usernameFromEmail(user.email.toString())
+                writeNewUser(user.uid, username, user.email.toString(), user.photoUrl.toString())
             }
         }
         

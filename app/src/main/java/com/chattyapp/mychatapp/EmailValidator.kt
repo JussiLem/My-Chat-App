@@ -7,19 +7,12 @@ class EmailValidator {
 
     private var isValid = false
 
-    fun afterTextChanged(editableText: String?): String? {
+    fun afterTextChanged(editableText: String?): Boolean {
         isValid = isValidEmail(editableText)
-        return if (isValid) {
-            editableText
-        } else {
-            null
-        }
-
+        return isValidEmail(editableText)
     }
 
-
     companion object {
-
         private val EMAIL_PATTERN = Pattern.compile(
             "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
                     "\\@" +
