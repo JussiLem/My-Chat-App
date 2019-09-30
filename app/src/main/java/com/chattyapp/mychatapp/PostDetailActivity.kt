@@ -8,11 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chattyapp.mychatapp.data.Comment
 import com.chattyapp.mychatapp.data.Post
 import com.chattyapp.mychatapp.data.User
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_post_detail.*
 import kotlinx.android.synthetic.main.include_post_author.*
@@ -20,7 +22,7 @@ import kotlinx.android.synthetic.main.include_post_text.*
 import kotlinx.android.synthetic.main.item_comment.view.*
 import java.util.ArrayList
 
-class PostDetailActivity : BaseActivity(), View.OnClickListener {
+class PostDetailActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var postKey: String
     private lateinit var postReference: DatabaseReference
@@ -147,7 +149,13 @@ class PostDetailActivity : BaseActivity(), View.OnClickListener {
                 })
 
         }
-            }
+    }
+
+    private fun getUid(): String? {
+
+        return FirebaseAuth.getInstance().currentUser?.uid
+    }
+
 
     private class CommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 

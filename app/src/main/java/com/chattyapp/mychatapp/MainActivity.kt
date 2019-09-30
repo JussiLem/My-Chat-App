@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
 import com.chattyapp.mychatapp.fragment.MyPostsFragment
@@ -12,7 +13,7 @@ import com.chattyapp.mychatapp.fragment.RecentPostFragment
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity() {
+class MainActivity : AppCompatActivity()  {
 
     private lateinit var pagerAdapter: FragmentPagerAdapter
 

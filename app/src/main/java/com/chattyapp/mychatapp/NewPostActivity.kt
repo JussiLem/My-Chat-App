@@ -5,13 +5,15 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.chattyapp.mychatapp.data.Post
 import com.chattyapp.mychatapp.data.User
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_new_post.*
 import java.util.HashMap
 
-class NewPostActivity : BaseActivity() {
+class NewPostActivity : AppCompatActivity() {
 
     private lateinit var database: DatabaseReference
 
@@ -93,9 +95,13 @@ class NewPostActivity : BaseActivity() {
                 })
             // [END single_value_read]
         }
-
-
     }
+
+    private fun getUid(): String? {
+
+        return FirebaseAuth.getInstance().currentUser?.uid
+    }
+
 
     private fun setEditingEnabled(enabled: Boolean) {
         fieldTitle.isEnabled = enabled

@@ -1,10 +1,12 @@
 package com.chattyapp.mychatapp
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.chattyapp.mychatapp.data.User
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -19,12 +21,13 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_google.*
 
-class SignInActivity : BaseActivity(), View.OnClickListener {
+class SignInActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var database: DatabaseReference
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
     private val emailValidator = EmailValidator()
+    private var progressDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -185,6 +188,26 @@ class SignInActivity : BaseActivity(), View.OnClickListener {
 
             signInButton.visibility = View.VISIBLE
             signOutAndDisconnect.visibility = View.GONE
+        }
+    }
+
+    private fun showProgressDialog() {
+        if (progressDialog == null) {
+            val pd = ProgressDialog(this)
+            pd.setCancelable(false)
+            pd.setMessage("Loading...")
+
+            progressDialog = pd
+        }
+
+        progressDialog?.show()
+    }
+
+    private fun hideProgressDialog() {
+        progressDialog?.let {
+            if (it.isShowing) {
+                it.dismiss()
+            }
         }
     }
 
