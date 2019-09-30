@@ -152,7 +152,6 @@ class PostDetailActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun getUid(): String? {
-
         return FirebaseAuth.getInstance().currentUser?.uid
     }
 

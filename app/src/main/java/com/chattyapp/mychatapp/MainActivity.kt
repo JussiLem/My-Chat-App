@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity()  {
         setContentView(R.layout.activity_main)
 
         // Create the adapter that will return a fragment for each section
-        pagerAdapter = object : FragmentPagerAdapter(supportFragmentManager) {
+        pagerAdapter = object : FragmentPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
             private val fragments = arrayOf<Fragment>(
                 RecentPostFragment(),
                 MyPostsFragment(),
