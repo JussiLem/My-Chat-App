@@ -8,6 +8,8 @@ apply plugin: 'kotlin-android'
 
 
 android {
+    testOptions.unitTests.includeAndroidResources = true
+
     compileSdkVersion rootProject.compileSdkVersion
 
     buildToolsVersion rootProject.buildToolsVersion
