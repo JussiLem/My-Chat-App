@@ -1,9 +1,9 @@
 package com.chattyapp.mychatapp
 
-import android.app.ProgressDialog
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -29,7 +29,6 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
     private val emailValidator = EmailValidator()
-    private var progressDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -117,7 +116,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
     private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
         Timber.d{ "firebaseAuthWithGoogle:${acct.id}" }
         // [START_EXCLUDE silent]
-        showProgressDialog()
+        setProgressDialog(true)
         // [END_EXCLUDE]
 
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
@@ -145,7 +144,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
                 }
 
                 // [START_EXCLUDE]
-                hideProgressDialog()
+                setProgressDialog(false)
                 // [END_EXCLUDE]
             }
     }
@@ -176,7 +175,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun updateUI(user: FirebaseUser?) {
-        hideProgressDialog()
+        setProgressDialog(false)
         if (user != null) {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
@@ -194,23 +193,13 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun showProgressDialog() {
-        if (progressDialog == null) {
-            val pd = ProgressDialog(this)
-            pd.setCancelable(false)
-            pd.setMessage("Loading...")
-
-            progressDialog = pd
-        }
-
-        progressDialog?.show()
-    }
-
-    private fun hideProgressDialog() {
-        progressDialog?.let {
-            if (it.isShowing) {
-                it.dismiss()
-            }
+    private fun setProgressDialog(show: Boolean) {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        builder.setView(R.layout.layout_loading_dialog)
+        val dialog: Dialog = builder.create()
+        when (show) {
+            true -> dialog.show()
+            else -> dialog.dismiss()
         }
     }
 
