@@ -48,7 +48,7 @@ class NewPostActivity : AppCompatActivity() {
 
         // Disable button so there are no multi-posts
         setEditingEnabled(false)
-        Toast.makeText(this, "Posting...", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, getString(R.string.posting), Toast.LENGTH_SHORT).show()
 
         // [START single_value_read]
         val userId = getUid()
@@ -74,7 +74,7 @@ class NewPostActivity : AppCompatActivity() {
                                 Timber.wtf { "User $userId is unexpectedly null" }
                                 Toast.makeText(
                                     baseContext,
-                                    "Error: could not fetch user.",
+                                    getString(R.string.error_fetch_user),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
