@@ -42,4 +42,6 @@
     <string name="write_your_post">Write your post…</string>
     <string name="auth_failed">Authentication Failed</string>
     <string name="email_parse_failed">Failed to parse email address</string>
+    <string name="posting">Posting…</string>
+    <string name="error_fetch_user">Error: could not fetch user.</string>
 </resources>
