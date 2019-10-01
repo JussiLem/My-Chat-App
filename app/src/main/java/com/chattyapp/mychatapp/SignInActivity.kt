@@ -138,7 +138,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
                 } else {
                     // If sign in fails, display a message to the user.
                     Timber.w { "signInWithCredential:failure ${task.exception}" }
-                    Snackbar.make(main_layout, "Authentication Failed.", Snackbar.LENGTH_SHORT)
+                    Snackbar.make(main_layout, getString(R.string.auth_failed), Snackbar.LENGTH_SHORT)
                         .show()
                     updateUI(null)
                 }

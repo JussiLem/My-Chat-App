@@ -32,4 +32,5 @@
     <string name="title">Otsikko</string>
     <string name="write_your_post">Kirjoita viesti…</string>
     <string name="google_status_fmt" translatable="false">"Google-käyttäjä: %s "</string>
+    <string name="auth_failed">Todennus epäonnistui</string>
 </resources>

@@ -40,4 +40,5 @@
     <string name="please_wait_this_may_take_a_moment">Please wait! This may take a moment</string>
     <string name="title">Title</string>
     <string name="write_your_post">Write your post…</string>
+    <string name="auth_failed">Authentication Failed</string>
 </resources>
