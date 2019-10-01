@@ -41,4 +41,5 @@
     <string name="title">Title</string>
     <string name="write_your_post">Write your post…</string>
     <string name="auth_failed">Authentication Failed</string>
+    <string name="email_parse_failed">Failed to parse email address</string>
 </resources>

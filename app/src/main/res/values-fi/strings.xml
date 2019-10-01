@@ -33,4 +33,5 @@
     <string name="write_your_post">Kirjoita viesti…</string>
     <string name="google_status_fmt" translatable="false">"Google-käyttäjä: %s "</string>
     <string name="auth_failed">Todennus epäonnistui</string>
+    <string name="email_parse_failed">Sähköpostin parsinta epäonnistui</string>
 </resources>

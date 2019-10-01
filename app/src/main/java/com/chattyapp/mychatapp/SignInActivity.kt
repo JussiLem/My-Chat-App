@@ -63,7 +63,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
         when (emailValidator.afterTextChanged(user.email)) {
             false -> {
                 Toast.makeText(
-                    baseContext, "Failed to parse the email address",
+                    baseContext, getString(R.string.email_parse_failed),
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -105,7 +105,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
             } catch (e: ApiException) {
                 // Google Sign In failed, update UI appropriately
                 Timber.w(e) { "Google sign in failed" }
-                Snackbar.make(main_layout, "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(main_layout, R.string.auth_failed, Snackbar.LENGTH_SHORT).show()
                 // [START_EXCLUDE]
                 updateUI(null)
                 // [END_EXCLUDE]
