@@ -8,6 +8,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.chattyapp.mychatapp.data.User
+import com.chattyapp.mychatapp.util.EmailValidator
+import com.chattyapp.timber.Timber
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -32,7 +34,8 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_google)
-
+        Timber.tag(TAG)
+        Timber.d { "Activity Created" }
         // Button listeners
         signInButton.setOnClickListener(this)
         signOutButton.setOnClickListener(this)
@@ -102,7 +105,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
                 firebaseAuthWithGoogle(account!!)
             } catch (e: ApiException) {
                 // Google Sign In failed, update UI appropriately
-                Log.w(TAG, "Google sign in failed", e)
+                Timber.w(e) { "Google sign in failed" }
                 Snackbar.make(main_layout, "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
                 // [START_EXCLUDE]
                 updateUI(null)
@@ -112,7 +115,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
-        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.id!!)
+        Timber.d{ "firebaseAuthWithGoogle:${acct.id}" }
         // [START_EXCLUDE silent]
         showProgressDialog()
         // [END_EXCLUDE]
@@ -122,20 +125,20 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    Log.d(TAG, "signInWithCredential:success")
+                    Timber.d{ "signInWithCredential:success" }
                     val user = auth.currentUser
 
                     auth.currentUser?.let {
                         onAuthSuccess(it)
                     }
-                    user!!.providerData.forEach {
-                        Log.d(TAG, "${it.photoUrl}")
+                    user?.providerData?.forEach {
+                        Timber.d{ "${it.photoUrl}" }
                     }
 
                     updateUI(user)
                 } else {
                     // If sign in fails, display a message to the user.
-                    Log.w(TAG, "signInWithCredential:failure", task.exception)
+                    Timber.w { "signInWithCredential:failure ${task.exception}" }
                     Snackbar.make(main_layout, "Authentication Failed.", Snackbar.LENGTH_SHORT)
                         .show()
                     updateUI(null)

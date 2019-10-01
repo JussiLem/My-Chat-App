@@ -3,11 +3,11 @@ package com.chattyapp.mychatapp
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.chattyapp.mychatapp.data.Post
 import com.chattyapp.mychatapp.data.User
+import com.chattyapp.timber.Timber
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_new_post.*
@@ -19,8 +19,11 @@ class NewPostActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new_post)
+//        if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
 
+        setContentView(R.layout.activity_new_post)
+        Timber.tag(TAG)
+        Timber.d { "Activity Created" }
         // [START initialize_database_ref]
         database = FirebaseDatabase.getInstance().reference
         // [END initialize_database_ref]
@@ -69,7 +72,7 @@ class NewPostActivity : AppCompatActivity() {
                         when (user) {
                             null -> {
                                 // User is null, error out
-                                Log.e(TAG, "User $userId is unexpectedly null")
+                                Timber.e { "User $userId is unexpectedly null" }
                                 Toast.makeText(
                                     baseContext,
                                     "Error: could not fetch user.",
@@ -87,7 +90,7 @@ class NewPostActivity : AppCompatActivity() {
                     }
 
                     override fun onCancelled(databaseError: DatabaseError) {
-                        Log.w(TAG, "getUser:onCancelled", databaseError.toException())
+                        Timber.w { "getUser:onCancelled + ${databaseError.toException()}" }
                         // [START_EXCLUDE]
                         setEditingEnabled(true)
                         // [END_EXCLUDE]
@@ -126,7 +129,7 @@ class NewPostActivity : AppCompatActivity() {
         // /posts/$postid simultaneously
         val key = database.child("posts").push().key
         if (key == null) {
-            Log.w(TAG, "Couldn't get push key for posts")
+            Timber.w {  "Couldn't get push key for posts" }
             return
         }
 

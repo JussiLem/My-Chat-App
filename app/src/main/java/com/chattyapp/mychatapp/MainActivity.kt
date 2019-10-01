@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import com.chattyapp.mychatapp.fragment.MyPostsFragment
 import com.chattyapp.mychatapp.fragment.MyTopPostsFragment
 import com.chattyapp.mychatapp.fragment.RecentPostFragment
+import com.chattyapp.timber.Timber
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -19,6 +20,8 @@ class MainActivity : AppCompatActivity()  {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Timber.tag(TAG)
+        Timber.d { "Activity Created" }
         setContentView(R.layout.activity_main)
 
         // Create the adapter that will return a fragment for each section

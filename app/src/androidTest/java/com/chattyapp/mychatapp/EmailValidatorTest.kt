@@ -1,6 +1,7 @@
 package com.chattyapp.mychatapp
 
 import androidx.test.filters.SmallTest
+import com.chattyapp.mychatapp.util.EmailValidator
 import org.junit.Assert.*
 import org.junit.Test
 

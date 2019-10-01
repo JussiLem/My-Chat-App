@@ -13,6 +13,7 @@ android {
         }
     }
     compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
     defaultConfig {
         applicationId "com.chattyapp.mychatapp"
         minSdkVersion rootProject.minSdkVersion
@@ -41,13 +42,13 @@ androidExtensions {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation project(":timber")
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation "androidx.core:core-ktx:$coreKtxVersion"
     implementation "androidx.recyclerview:recyclerview:$recyclerViewVersion"
     implementation "androidx.cardview:cardview:$cardVersion"
     implementation "androidx.vectordrawable:vectordrawable-animated:$vectorDrawableAnimatedVersion"
-    implementation "com.jakewharton.timber:timber:$timberVersion"
     implementation "com.google.android.material:material:$materialVersion"
     implementation "androidx.legacy:legacy-support-v4:$androidXLegacySupport"
 
@@ -65,6 +66,7 @@ dependencies {
     androidTestImplementation "androidx.test:runner:$runnerVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoCoreVersion"
     androidTestImplementation "androidx.test:rules:$rulesVersion"
+
 
 }
 

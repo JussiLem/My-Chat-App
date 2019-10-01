@@ -2,7 +2,6 @@ package com.chattyapp.mychatapp.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +12,7 @@ import com.chattyapp.mychatapp.PostDetailActivity
 import com.chattyapp.mychatapp.R
 import com.chattyapp.mychatapp.data.Post
 import com.chattyapp.mychatapp.viewholder.PostViewHolder
+import com.chattyapp.timber.Timber
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -38,6 +38,7 @@ abstract class PostListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
+        Timber.tag(TAG)
         val rootView = inflater.inflate(R.layout.fragment_all_posts, container, false)
 
         // [START create_database_reference] )
@@ -131,7 +132,11 @@ abstract class PostListFragment : Fragment() {
                 dataSnapshot: DataSnapshot?
             ) {
                 // Transaction completed
-                Log.d(TAG, "postTransaction:onComplete:$databaseError, $dataSnapshot")
+                when {
+                    databaseError != null -> Timber.d { "postTransaction:onComplete:$databaseError" }
+                    else -> Timber.d { "postTransaction:onComplete:$dataSnapshot" }
+                }
+
             }
         })
     }

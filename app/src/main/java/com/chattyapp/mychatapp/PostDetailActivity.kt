@@ -3,7 +3,6 @@ package com.chattyapp.mychatapp
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chattyapp.mychatapp.data.Comment
 import com.chattyapp.mychatapp.data.Post
 import com.chattyapp.mychatapp.data.User
+import com.chattyapp.timber.Timber
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_post_detail.*
@@ -33,6 +33,8 @@ class PostDetailActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Timber.tag(TAG)
+        Timber.d { "Activity Created" }
         setContentView(R.layout.activity_post_detail)
 
         // Get post key from intent
@@ -70,7 +72,7 @@ class PostDetailActivity : AppCompatActivity(), View.OnClickListener {
 
             override fun onCancelled(databaseError: DatabaseError) {
                 // Getting Post failed, log a message
-                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+                Timber.d {"loadPost:onCancelled ${databaseError.toException()}" }
                 // [START_EXCLUDE]
                 Toast.makeText(baseContext, "Failed to load post.",
                     Toast.LENGTH_SHORT).show()
@@ -138,7 +140,7 @@ class PostDetailActivity : AppCompatActivity(), View.OnClickListener {
 
                     override fun onCancelled(databaseError: DatabaseError) {
                         // Getting Post failed, log a message
-                        Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+                        Timber.w { "loadPost:onCancelled + ${databaseError.toException()}" }
                         // [START_EXCLUDE]
                         Toast.makeText(
                             this@PostDetailActivity, "Failed to load post.",
@@ -180,7 +182,7 @@ class PostDetailActivity : AppCompatActivity(), View.OnClickListener {
             // [START child_event_listener_recycler]
             val childEventListener = object : ChildEventListener {
                 override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
-                    Log.d(TAG, "onChildAdded:" + dataSnapshot.key!!)
+                    Timber.d { "onChildAdded: + ${dataSnapshot.key} " }
 
                     // A new comment has been added, add it to the displayed list
                     val comment = dataSnapshot.getValue(Comment::class.java)
@@ -194,7 +196,7 @@ class PostDetailActivity : AppCompatActivity(), View.OnClickListener {
                 }
 
                 override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {
-                    Log.d(TAG, "onChildChanged: ${dataSnapshot.key}")
+                    Timber.d {"onChildChanged: ${dataSnapshot.key}" }
 
                     // A comment has changed, use the key to determine if we are displaying this
                     // comment and if so displayed the changed comment.
@@ -210,13 +212,13 @@ class PostDetailActivity : AppCompatActivity(), View.OnClickListener {
                         // Update the RecyclerView
                         notifyItemChanged(commentIndex)
                     } else {
-                        Log.w(TAG, "onChildChanged:unknown_child: $commentKey")
+                        Timber.d { "onChildChanged:unknown_child: $commentKey" }
                     }
                     // [END_EXCLUDE]
                 }
 
                 override fun onChildRemoved(dataSnapshot: DataSnapshot) {
-                    Log.d(TAG, "onChildRemoved:" + dataSnapshot.key!!)
+                    Timber.d {"onChildRemoved:" + dataSnapshot.key }
 
                     // A comment has changed, use the key to determine if we are displaying this
                     // comment and if so remove it.
@@ -232,13 +234,13 @@ class PostDetailActivity : AppCompatActivity(), View.OnClickListener {
                         // Update the RecyclerView
                         notifyItemRemoved(commentIndex)
                     } else {
-                        Log.w(TAG, "onChildRemoved:unknown_child:" + commentKey!!)
+                        Timber.d { "onChildRemoved:unknown_child:${commentKey!!}" }
                     }
                     // [END_EXCLUDE]
                 }
 
                 override fun onChildMoved(dataSnapshot: DataSnapshot, previousChildName: String?) {
-                    Log.d(TAG, "onChildMoved:" + dataSnapshot.key!!)
+                    Timber.d { "onChildMoved:${dataSnapshot.key}" }
 
                     // A comment has changed position, use the key to determine if we are
                     // displaying this comment and if so move it.
@@ -249,7 +251,7 @@ class PostDetailActivity : AppCompatActivity(), View.OnClickListener {
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
-                    Log.w(TAG, "postComments:onCancelled", databaseError.toException())
+                    Timber.d { "postComments:onCancelled ${databaseError.toException()}" }
                     Toast.makeText(context, "Failed to load comments.",
                         Toast.LENGTH_SHORT).show()
                 }

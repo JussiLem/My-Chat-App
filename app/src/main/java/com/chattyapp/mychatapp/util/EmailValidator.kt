@@ -1,4 +1,4 @@
-package com.chattyapp.mychatapp
+package com.chattyapp.mychatapp.util
 
 import java.util.regex.Pattern
 
