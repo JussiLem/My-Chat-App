@@ -1,9 +1,9 @@
 package com.chattyapp.mychatapp
 
-import android.app.ProgressDialog
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -29,7 +29,6 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
     private val emailValidator = EmailValidator()
-    private var progressDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +63,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
         when (emailValidator.afterTextChanged(user.email)) {
             false -> {
                 Toast.makeText(
-                    baseContext, "Failed to parse the email address",
+                    baseContext, getString(R.string.email_parse_failed),
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -106,7 +105,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
             } catch (e: ApiException) {
                 // Google Sign In failed, update UI appropriately
                 Timber.w(e) { "Google sign in failed" }
-                Snackbar.make(main_layout, "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(main_layout, R.string.auth_failed, Snackbar.LENGTH_SHORT).show()
                 // [START_EXCLUDE]
                 updateUI(null)
                 // [END_EXCLUDE]
@@ -117,7 +116,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
     private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
         Timber.d{ "firebaseAuthWithGoogle:${acct.id}" }
         // [START_EXCLUDE silent]
-        showProgressDialog()
+        setProgressDialog(true)
         // [END_EXCLUDE]
 
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
@@ -139,13 +138,13 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
                 } else {
                     // If sign in fails, display a message to the user.
                     Timber.w { "signInWithCredential:failure ${task.exception}" }
-                    Snackbar.make(main_layout, "Authentication Failed.", Snackbar.LENGTH_SHORT)
+                    Snackbar.make(main_layout, getString(R.string.auth_failed), Snackbar.LENGTH_SHORT)
                         .show()
                     updateUI(null)
                 }
 
                 // [START_EXCLUDE]
-                hideProgressDialog()
+                setProgressDialog(false)
                 // [END_EXCLUDE]
             }
     }
@@ -176,7 +175,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun updateUI(user: FirebaseUser?) {
-        hideProgressDialog()
+        setProgressDialog(false)
         if (user != null) {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
@@ -194,23 +193,13 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun showProgressDialog() {
-        if (progressDialog == null) {
-            val pd = ProgressDialog(this)
-            pd.setCancelable(false)
-            pd.setMessage("Loading...")
-
-            progressDialog = pd
-        }
-
-        progressDialog?.show()
-    }
-
-    private fun hideProgressDialog() {
-        progressDialog?.let {
-            if (it.isShowing) {
-                it.dismiss()
-            }
+    private fun setProgressDialog(show: Boolean) {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        builder.setView(R.layout.layout_loading_dialog)
+        val dialog: Dialog = builder.create()
+        when (show) {
+            true -> dialog.show()
+            else -> dialog.dismiss()
         }
     }
 

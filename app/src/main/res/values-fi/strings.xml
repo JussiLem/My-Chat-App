@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Minun Chat Sovellus</string>
+    <string name="action_settings">Asetukset</string>
+    <string name="desc_firebase_lockup">Firebase logo ja nimi</string>
+    <string name="title_sign_in">Tervetuloa</string>
+    <string name="fail_sign_up">Rekisteröinti epäonnistui</string>
+    <string name="sign_up">Rekisteröinti</string>
+    <string name="sign_out">Uloskirjautuminen</string>
+    <string name="fail_sign_in">Uloskirjautuminen epäonnistui</string>
+    <string name="sign_in">Sisäänkirjautuminen</string>
+    <string name="signed_out">Kirjautui ulos</string>
+    <string name="signed_in">Kirjautui sisään</string>
+    <string name="send_text">Lähetä</string>
+    <string name="heading_recent">Viimeisin</string>
+    <string name="please_wait_this_may_take_a_moment">Odota! Tämä voi viedä hetken</string>
+    <string name="error_password_req">Salasana vaaditaan</string>
+    <string name="password_label">Salasana</string>
+    <string name="hint_password">salasana</string>
+    <string name="heading_my_top_posts">Suosituimmat viestit</string>
+    <string name="heading_my_posts">Omat viestit</string>
+    <string name="menu_login">Kirjaudu sisään / Kirjaudu ulos</string>
+    <string name="login_label">Kirjaudu sisään</string>
+    <string name="google_title_text">Google-sisäänkirjautuminen</string>
+    <string name="firebase_user_management">"Firebase-käyttäjän hallinta "</string>
+    <string name="firebase_status_fmt">Firebase-käyttäjä: %s</string>
+    <string name="label_google_sign_in">Firebase + Google-sisäänkirjautuminen</string>
+    <string name="error_email_req">Sähköposti vaaditaan</string>
+    <string name="email_label">Sähköposti</string>
+    <string name="hint_email">sähköposti</string>
+    <string name="disconnect">Katkaise yhteys</string>
+    <string name="title">Otsikko</string>
+    <string name="write_your_post">Kirjoita viesti…</string>
+    <string name="google_status_fmt">"Google-käyttäjä: %s "</string>
+    <string name="auth_failed">Todennus epäonnistui</string>
+    <string name="email_parse_failed">Sähköpostin parsinta epäonnistui</string>
+</resources>
