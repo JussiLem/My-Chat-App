@@ -34,7 +34,7 @@ ext {
     compileSdkVersion = 29
     minSdkVersion = 21
     targetSdkVersion = 29
-    buildToolsVersion = "29"
+    buildToolsVersion = '29.0.2'
     timberVersion = '4.7.1'
     appCompatVersion = '1.1.0'
     androidXLegacySupport = '1.0.0'
@@ -54,6 +54,6 @@ ext {
     extJunitVersion = "1.1.1"
     firebaseUiDatabaseVersion = "4.3.2"
     robolectricVersion = "4.3"
-    mockitoKotlinVersion = "1.5.0"
-    assertjCoreVersion = "3.9.1"
+    mockitoKotlinVersion = '1.6.0'
+    assertjCoreVersion = '3.13.2'
 }
