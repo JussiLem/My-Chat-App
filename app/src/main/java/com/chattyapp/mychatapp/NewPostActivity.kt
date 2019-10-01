@@ -19,7 +19,6 @@ class NewPostActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
 
         setContentView(R.layout.activity_new_post)
         Timber.tag(TAG)
