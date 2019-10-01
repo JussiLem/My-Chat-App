@@ -23,6 +23,22 @@ class TimberTest {
     }
 
     @Test
+    fun debugTreeIsEmpty() {
+        val messages = plantTestTree(ignoreMessage = false)
+        assertThat(messages).isEmpty()
+    }
+
+    @Test
+    fun debugTreeIsNotEmpty() {
+        val messages = plantTestTree(ignoreMessage = false)
+        v { "Verbose" }
+        Timber.v { "Verbose" }
+        Timber.tag("Custom").v { "Verbose" }
+
+        assertThat(messages).isNotEmpty
+    }
+
+    @Test
     fun logMessages() {
         val messages = plantTestTree(ignoreMessage = false)
 
@@ -76,5 +92,6 @@ class TimberTest {
         })
         return messages
     }
+
 
 }
