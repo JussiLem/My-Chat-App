@@ -72,7 +72,7 @@ class NewPostActivity : AppCompatActivity() {
                         when (user) {
                             null -> {
                                 // User is null, error out
-                                Timber.e { "User $userId is unexpectedly null" }
+                                Timber.wtf { "User $userId is unexpectedly null" }
                                 Toast.makeText(
                                     baseContext,
                                     "Error: could not fetch user.",
