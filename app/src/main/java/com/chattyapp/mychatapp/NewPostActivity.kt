@@ -1,8 +1,10 @@
 package com.chattyapp.mychatapp
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.chattyapp.mychatapp.data.Post
@@ -77,6 +79,7 @@ class NewPostActivity : AppCompatActivity() {
                                     R.string.error_fetch_user,
                                     Toast.LENGTH_SHORT
                                 ).show()
+                                hideKeyboard()
                             }
                             else -> // Write new post
                                 writeNewPost(userId, user, title, body)
@@ -122,6 +125,7 @@ class NewPostActivity : AppCompatActivity() {
                 R.string.error_fetch_user,
                 Toast.LENGTH_SHORT
             ).show()
+            hideKeyboard()
             return
         }
         // Create new post at /user-posts/$userid/$postid and at
@@ -142,6 +146,14 @@ class NewPostActivity : AppCompatActivity() {
         database.updateChildren(childUpdates)
     }
     // [END write_fan_out]
+
+    private fun hideKeyboard() {
+        val view = currentFocus
+        if (view != null) {
+            (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+                .hideSoftInputFromWindow(view.windowToken, 0)
+        }
+    }
 
     companion object {
 

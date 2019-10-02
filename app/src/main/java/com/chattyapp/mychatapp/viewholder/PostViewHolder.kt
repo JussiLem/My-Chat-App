@@ -2,6 +2,7 @@ package com.chattyapp.mychatapp.viewholder
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.chattyapp.mychatapp.R
 import com.chattyapp.mychatapp.data.Post
 import kotlinx.android.synthetic.main.include_post_author.view.*
@@ -15,6 +16,8 @@ class PostViewHolder(item: View) : RecyclerView.ViewHolder(item) {
         itemView.postAuthor.text = post.author.username
         itemView.postNumStars.text = post.starCount.toString()
         itemView.postBody.text = post.body
+
+        Glide.with(itemView.postAuthorPhoto.context).load(post.author.photoUrl).circleCrop().into(itemView.postAuthorPhoto)
 
         itemView.star.setOnClickListener(startClickListener)
     }

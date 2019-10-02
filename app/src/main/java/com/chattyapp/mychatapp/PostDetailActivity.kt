@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -72,10 +73,12 @@ class PostDetailActivity : AppCompatActivity(), View.OnClickListener {
 
             override fun onCancelled(databaseError: DatabaseError) {
                 // Getting Post failed, log a message
-                Timber.d {"loadPost:onCancelled ${databaseError.toException()}" }
+                Timber.d { "loadPost:onCancelled ${databaseError.toException()}" }
                 // [START_EXCLUDE]
-                Toast.makeText(baseContext, "Failed to load post.",
-                    Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    baseContext, "Failed to load post.",
+                    Toast.LENGTH_SHORT
+                ).show()
                 // [END_EXCLUDE]
             }
         }
@@ -115,7 +118,9 @@ class PostDetailActivity : AppCompatActivity(), View.OnClickListener {
             Toast.makeText(
                 baseContext,
                 "Error: could not fetch user.",
-                Toast.LENGTH_SHORT).show()
+                Toast.LENGTH_SHORT
+            ).show()
+            hideKeyboard()
         } else {
             FirebaseDatabase.getInstance().reference.child("users").child(uid)
                 .addListenerForSingleValueEvent(object : ValueEventListener {
@@ -148,6 +153,14 @@ class PostDetailActivity : AppCompatActivity(), View.OnClickListener {
                     }
                 })
 
+        }
+    }
+
+    private fun hideKeyboard() {
+        val view = currentFocus
+        if (view != null) {
+            (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+                .hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
 
@@ -193,8 +206,11 @@ class PostDetailActivity : AppCompatActivity(), View.OnClickListener {
                     // [END_EXCLUDE]
                 }
 
-                override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {
-                    Timber.d {"onChildChanged: ${dataSnapshot.key}" }
+                override fun onChildChanged(
+                    dataSnapshot: DataSnapshot,
+                    previousChildName: String?
+                ) {
+                    Timber.d { "onChildChanged: ${dataSnapshot.key}" }
 
                     // A comment has changed, use the key to determine if we are displaying this
                     // comment and if so displayed the changed comment.
@@ -216,7 +232,7 @@ class PostDetailActivity : AppCompatActivity(), View.OnClickListener {
                 }
 
                 override fun onChildRemoved(dataSnapshot: DataSnapshot) {
-                    Timber.d {"onChildRemoved:" + dataSnapshot.key }
+                    Timber.d { "onChildRemoved:" + dataSnapshot.key }
 
                     // A comment has changed, use the key to determine if we are displaying this
                     // comment and if so remove it.
@@ -250,8 +266,10 @@ class PostDetailActivity : AppCompatActivity(), View.OnClickListener {
 
                 override fun onCancelled(databaseError: DatabaseError) {
                     Timber.d { "postComments:onCancelled ${databaseError.toException()}" }
-                    Toast.makeText(context, "Failed to load comments.",
-                        Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context, "Failed to load comments.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
             databaseReference.addChildEventListener(childEventListener)
