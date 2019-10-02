@@ -2,6 +2,7 @@ apply plugin: "com.android.application"
 apply plugin: "kotlin-android"
 apply plugin: "kotlin-android-extensions"
 apply plugin: "org.jetbrains.kotlin.android.extensions"
+apply plugin: 'kotlin-kapt'
 
 android {
     signingConfigs {
@@ -45,13 +46,14 @@ dependencies {
     implementation project(":timber")
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
-    implementation "androidx.core:core-ktx:$coreKtxVersion"
-    implementation "androidx.recyclerview:recyclerview:$recyclerViewVersion"
     implementation "androidx.cardview:cardview:$cardVersion"
+    implementation "androidx.core:core-ktx:$coreKtxVersion"
+    implementation "androidx.legacy:legacy-support-v4:$androidXLegacySupport"
+    implementation "androidx.recyclerview:recyclerview:$recyclerViewVersion"
     implementation "androidx.vectordrawable:vectordrawable-animated:$vectorDrawableAnimatedVersion"
     implementation "com.google.android.material:material:$materialVersion"
-    implementation "androidx.legacy:legacy-support-v4:$androidXLegacySupport"
 
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
     implementation "com.firebaseui:firebase-ui-database:$firebaseUiDatabaseVersion"
 
     implementation "com.google.firebase:firebase-core:$firebaseCoreVersion"
@@ -63,8 +65,8 @@ dependencies {
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$extJunitVersion"
     // Espresso needs these
-    androidTestImplementation "androidx.test:runner:$runnerVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoCoreVersion"
+    androidTestImplementation "androidx.test:runner:$runnerVersion"
     androidTestImplementation "androidx.test:rules:$rulesVersion"
 
 

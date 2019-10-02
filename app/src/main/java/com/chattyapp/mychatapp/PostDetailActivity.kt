@@ -86,8 +86,7 @@ class PostDetailActivity : AppCompatActivity(), View.OnClickListener {
         this.postListener = postListener
 
         // Listen for comments
-        adapter = CommentAdapter(this, commentsReference)
-        recyclerPostComments.adapter = adapter
+        recyclerPostComments.adapter = CommentAdapter(this, commentsReference)
     }
 
     public override fun onStop() {
@@ -103,9 +102,8 @@ class PostDetailActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View) {
-        val i = v.id
-        if (i == R.id.buttonPostComment) {
-            postComment()
+        when (v.id) {
+            R.id.buttonPostComment -> postComment()
         }
     }
 

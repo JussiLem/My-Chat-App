@@ -57,7 +57,7 @@ class NewPostActivity : AppCompatActivity() {
             finish()
             Toast.makeText(
                 baseContext,
-                "Error: could not fetch user.",
+                R.string.error_fetch_user,
                 Toast.LENGTH_SHORT
             ).show()
         } else {
@@ -74,7 +74,7 @@ class NewPostActivity : AppCompatActivity() {
                                 Timber.wtf { "User $userId is unexpectedly null" }
                                 Toast.makeText(
                                     baseContext,
-                                    getString(R.string.error_fetch_user),
+                                    R.string.error_fetch_user,
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -119,7 +119,7 @@ class NewPostActivity : AppCompatActivity() {
         if (userId.isEmpty()) {
             Toast.makeText(
                 baseContext,
-                "Error: could not fetch user.",
+                R.string.error_fetch_user,
                 Toast.LENGTH_SHORT
             ).show()
             return
@@ -128,7 +128,7 @@ class NewPostActivity : AppCompatActivity() {
         // /posts/$postid simultaneously
         val key = database.child("posts").push().key
         if (key == null) {
-            Timber.w {  "Couldn't get push key for posts" }
+            Timber.w { "Couldn't get push key for posts" }
             return
         }
 
