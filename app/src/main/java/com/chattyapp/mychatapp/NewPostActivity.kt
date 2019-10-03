@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.chattyapp.mychatapp.data.Post
 import com.chattyapp.mychatapp.data.User
 import com.chattyapp.timber.Timber
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_new_post.*
 import java.util.HashMap
@@ -29,7 +28,10 @@ class NewPostActivity : AppCompatActivity() {
         database = FirebaseDatabase.getInstance().reference
         // [END initialize_database_ref]
 
-        fabSubmitPost.setOnClickListener { submitPost() }
+        fabSubmitPost.setOnClickListener {
+            submitPost()
+
+        }
     }
 
     private fun submitPost() {
@@ -53,7 +55,7 @@ class NewPostActivity : AppCompatActivity() {
         Toast.makeText(this, getString(R.string.posting), Toast.LENGTH_SHORT).show()
 
         // [START single_value_read]
-        val userId = getUid()
+        val userId = FirebaseHelper.getUid()
         if (userId.isNullOrEmpty()) {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
@@ -101,12 +103,6 @@ class NewPostActivity : AppCompatActivity() {
             // [END single_value_read]
         }
     }
-
-    private fun getUid(): String? {
-
-        return FirebaseAuth.getInstance().currentUser?.uid
-    }
-
 
     private fun setEditingEnabled(enabled: Boolean) {
         fieldTitle.isEnabled = enabled
