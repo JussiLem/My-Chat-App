@@ -124,7 +124,7 @@ class CommentAdapter (
     }
 
     override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
-        holder.bind(comments[position])
+        holder.bindToComment(comments[position])
     }
 
     override fun getItemCount(): Int = comments.size

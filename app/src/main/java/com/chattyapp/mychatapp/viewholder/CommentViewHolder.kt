@@ -7,7 +7,7 @@ import kotlinx.android.synthetic.main.item_comment.view.*
 
 class CommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    fun bind(comment: Comment) {
+    fun bindToComment(comment: Comment) {
         itemView.commentAuthor.text = comment.author.username
         itemView.commentBody.text = comment.text
     }
